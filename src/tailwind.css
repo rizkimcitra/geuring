@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  html,
+  body,
+  input,
+  label,
+  span,
+  button,
+  textarea {
+    @apply font-poppins antialiased;
+  }
+  body {
+    @apply bg-blue-50 dark:bg-gray-800;
+  }
+}
