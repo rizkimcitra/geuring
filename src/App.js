@@ -1,6 +1,5 @@
 import axios from "axios"
 import Theme from "./util/Theme"
-import bannerImage from "./img/world_map.svg"
 
 export default function App() {
   Theme()
@@ -64,9 +63,6 @@ export default function App() {
   }
 
   document.addEventListener("DOMContentLoaded", async () => {
-    document.getElementById(
-      "banner__image",
-    ).innerHTML = `<img src=${bannerImage} alt="" class="w-full" />`
     await getCase()
   })
 }
