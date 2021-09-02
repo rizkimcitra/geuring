@@ -17,15 +17,15 @@ import "./component/Card.js"
             console.log(
               `error: tidak dapat menemukan data yang diminta🤨. \n error code: ${err.response.status}`,
             )
-          } else {
+          } else if (err.response.status >= 500) {
             console.log(
               "error: oops.. ada sesuatu yang terjadi diserver saat ini 😭.\nmohon ulangi lagi nanti",
             )
+          } else {
+            console.log(
+              "error: tidak ada koneksi internet \nmohon periksa koneksi internet anda 😭",
+            )
           }
-        } else {
-          console.log(
-            "error: tidak ada koneksi internet \nmohon periksa koneksi internet anda 😭",
-          )
         }
       }
     }
@@ -58,13 +58,88 @@ import "./component/Card.js"
           }
         }
       }
-    } else {
-      return
     }
   }
 
-  const renderData = (data) => {
-    console.log(data)
+  const renderData = (datas) => {
+    const actData = Object.values(datas)
+    const key = Object.keys(datas)
+    const arr = []
+    for (let i = 0; i < actData.length; i++) {
+      const dataNum = actData[i]
+      const dataText = key[i]
+      const el = { dataNum, dataText }
+      arr.push(el)
+    }
+
+    const dataActive = arr
+      .filter((el) => {
+        return el.dataText === "active"
+      })
+      .map((e) => {
+        return e
+      })
+
+    const dataDeaths = arr
+      .filter((el) => {
+        return el.dataText === "deaths"
+      })
+      .map((e) => e)
+
+    const dataRecovered = arr
+      .filter((el) => {
+        return el.dataText === "recovered"
+      })
+      .map((e) => e)
+
+    const data = [dataActive, dataDeaths, dataRecovered]
+
+    const cardList = document.getElementById("card__list")
+    data.forEach((el) => {
+      el.forEach((data) => {
+        const { dataText, dataNum } = data
+        let status =
+          dataText === "active"
+            ? "kasus aktif"
+            : dataText === "deaths"
+            ? "meninggal"
+            : "sembuh"
+
+        let cases = dataNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        cardList.innerHTML += `<div
+              class="
+                flex
+                justify-center
+                flex-col
+                w-full
+                h-20
+                px-4
+                shadow-md
+                dark:shadow-none
+                rounded-md
+                bg-white
+                dark:bg-gray-700
+              "
+            >
+              <h5
+                class="
+                  text-base
+                  sm:text-lg
+                  xl:text-xl
+                  font-semibold
+                  text-gray-700
+                  dark:text-gray-200
+                "
+              >
+              ${status}
+              </h5>
+              <span
+                class="text-sm sm:text-base text-gray-600 dark:text-gray-300"
+                >${cases}</span
+              >
+            </div>`
+      })
+    })
   }
 
   const renderError = (message) => {

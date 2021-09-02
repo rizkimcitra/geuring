@@ -9,4 +9,4 @@ class Card extends HTMLElement {
   attributeChangedCallback(name, oldVal, newVal) {}
 }
 
-customElements.define("card-el", Card)
+customElements.define("card-item", Card)
