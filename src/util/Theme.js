@@ -26,4 +26,14 @@ export default function Theme() {
       changeTheme();
     }
   });
+
+  const modal = document.getElementById("modal")
+  modal.addEventListener("click", function (e) {
+    if (e.target.id === "closeModal") {
+      modal.classList.add("scale-0")
+      if (document.body.classList.contains("overflow-y-hidden")) {
+        document.body.classList.remove("overflow-y-hidden")
+      }
+    }
+  })
 }
