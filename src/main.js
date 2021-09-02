@@ -1,5 +1,6 @@
 import axios from "axios"
 import Theme from "./util/Theme"
+import "regenerator-runtime"
 import "./tailwind.css"
 import "./component/Card.js"
 ;(function App() {
