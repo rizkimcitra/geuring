@@ -81,7 +81,6 @@ import "./component/Card.js"
 
   document.addEventListener("DOMContentLoaded", () => {
     Theme()
-    searchCase("Indo")
     getCase()
   })
 })()
