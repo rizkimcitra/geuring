@@ -3,9 +3,7 @@ class Card extends HTMLElement {
     super()
   }
 
-  connectedCallback(id) {
-    this.setAttribute("id", id)
-  }
+  connectedCallback() {}
   attributeChangedCallback(name, oldVal, newVal) {}
 }
 

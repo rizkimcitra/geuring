@@ -1,39 +1,29 @@
 export default function Theme() {
-  const themeSwitcher = document.getElementById("darkModeToggle");
-  const themeSwitcherIcon = document.getElementById("toggleIcon");
+  const themeSwitcher = document.getElementById("darkModeToggle")
+  const themeSwitcherIcon = document.getElementById("toggleIcon")
   const changeTheme = () => {
-    const color = localStorage.getItem("theme");
+    const color = localStorage.getItem("theme")
     if (color) {
-      document.documentElement.classList.add(color);
-      themeSwitcherIcon.classList.remove("bx-moon");
-      themeSwitcherIcon.classList.add("bx-sun");
+      document.documentElement.classList.add(color)
+      themeSwitcherIcon.classList.remove("bx-moon")
+      themeSwitcherIcon.classList.add("bx-sun")
     } else {
-      document.documentElement.classList.remove("dark");
-      themeSwitcherIcon.classList.add("bx-moon");
-      themeSwitcherIcon.classList.remove("bx-sun");
+      document.documentElement.classList.remove("dark")
+      themeSwitcherIcon.classList.add("bx-moon")
+      themeSwitcherIcon.classList.remove("bx-sun")
     }
-  };
+  }
 
-  changeTheme();
+  changeTheme()
 
   themeSwitcher.addEventListener("click", function () {
-    const color = localStorage.getItem("theme");
+    const color = localStorage.getItem("theme")
     if (color) {
-      localStorage.removeItem("theme");
-      changeTheme();
+      localStorage.removeItem("theme")
+      changeTheme()
     } else {
-      localStorage.setItem("theme", "dark");
-      changeTheme();
-    }
-  });
-
-  const modal = document.getElementById("modal")
-  modal.addEventListener("click", function (e) {
-    if (e.target.id === "closeModal") {
-      modal.classList.add("scale-0")
-      if (document.body.classList.contains("overflow-y-hidden")) {
-        document.body.classList.remove("overflow-y-hidden")
-      }
+      localStorage.setItem("theme", "dark")
+      changeTheme()
     }
   })
 }
