@@ -20,28 +20,10 @@ import ChartUI from "./component/ChartUI"
   const getCase = async () => {
     try {
       const response = await axios.get(`${baseURL}/all`)
-      renderCard(response.data)
       ChartUI(false, response.data)
+      renderCard(response.data)
     } catch (err) {
-      if (err) {
-        if (err.response) {
-          if (err.response.status === 404) {
-            console.log(
-              `error: tidak dapat menemukan data yang diminta🤨. \n error code: ${err.response.status}`,
-            )
-          } else if (err.response.status >= 500) {
-            console.log(
-              "error: oops.. ada sesuatu yang terjadi diserver saat ini 😭.\nmohon ulangi lagi nanti",
-            )
-          } else {
-            console.log(
-              "error: tidak ada koneksi internet \nmohon periksa koneksi internet anda 😭",
-            )
-          }
-        }
-      } else {
-        renderCard()
-      }
+      renderError(err)
     }
   }
 
@@ -111,37 +93,12 @@ import ChartUI from "./component/ChartUI"
               : "text-green-500"
 
           let cases = dataNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          cardList.innerHTML += `<card-item
-              class="
-                flex
-                justify-center
-                flex-col
-                w-full
-                h-16
-                md:h-20
-                lg:h-24
-                px-4
-                shadow-sm
-                dark:shadow-none
-                rounded-md
-                select-none
-                bg-white
-                dark:bg-gray-700
-              "
-            >
-              <h5
-                class="
-                  text-base
-                  sm:text-lg
-                  xl:text-xl
-                  font-semibold
-                  ${textColor}
-                "
-              >
+          cardList.innerHTML += `<card-item>
+              <h5 class="card__item-head ${textColor}">
               ${status}
               </h5>
               <span id=${dataText}
-                class="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-300"
+                class="card__item-num"
                 >${cases}</span
               >
             </card-item>`
@@ -174,17 +131,153 @@ import ChartUI from "./component/ChartUI"
   }
 
   const renderError = (message) => {
-    if (message.response) {
-      if (message.response.status === 404) {
-        const val = document.getElementById("search__bar")
-        console.log(`tidak dapat menemukan Negara ${val.value}`)
+    const noNetWork = "Network Error"
+    if (message.message !== noNetWork) {
+      if (message.response) {
+        if (message.response.status === 404) {
+          const val = document.getElementById("search__bar")
+          const modal = document.getElementById("modal-error")
+          const modalBody = document.getElementById("modal-body")
+          modalBody.innerHTML = `<div
+          class="
+            grid
+            place-items-center
+            mx-auto
+            text-6xl text-red-500
+            dark:text-red-400
+          "
+        >
+          <i class="bx bx-x-circle"></i>
+        </div>
+        <div class="w-full">
+          <h5
+            class="
+              text-base
+              md:text-lg
+              lg:text-xl
+              xl:text-3xl
+              text-center
+              font-semibold
+              text-gray-700
+              dark:text-gray-200
+            "
+          >
+            ERROR!
+          </h5>
+          <p
+            class="
+              text-center text-xs
+              sm:text-base
+              lg:text-lg
+              xl:text-xl
+              text-gray-600
+              dark:text-gray-300
+            "
+          >
+            Tidak dapat menemukan negara ${val.value}😐, harap hanya mencari Negara saja dan dalam bahasa Inggris
+          </p>
+        </div>`
+          modal.classList.toggle("scale-0")
+          modal.classList.toggle("scale-100")
+          document.body.classList.toggle("overflow-y-hidden")
+        } else if (message.response.status >= 500) {
+          const modal = document.getElementById("modal-error")
+          const modalBody = document.getElementById("modal-body")
+          modalBody.innerHTML = `<div
+          class="
+            grid
+            place-items-center
+            mx-auto
+            text-6xl text-red-500
+            dark:text-red-400
+          "
+        >
+          <i class="bx bx-x-circle"></i>
+        </div>
+        <div class="w-full">
+          <h5
+            class="
+              text-base
+              md:text-lg
+              lg:text-xl
+              xl:text-3xl
+              text-center
+              font-semibold
+              text-gray-700
+              dark:text-gray-200
+            "
+          >
+            ERROR!
+          </h5>
+          <p
+            class="
+              text-center text-xs
+              sm:text-base
+              lg:text-lg
+              xl:text-xl
+              text-gray-600
+              dark:text-gray-300
+            "
+          >
+            Telah terjadi sesuatu pada Server 😭, mohon coba lagi nanti
+          </p>
+        </div>`
+          modal.classList.toggle("scale-0")
+          modal.classList.toggle("scale-100")
+          document.body.classList.toggle("overflow-y-hidden")
+        }
       }
+    } else {
+      const modal = document.getElementById("modal-error")
+      const modalBody = document.getElementById("modal-body")
+      modalBody.innerHTML = `<div
+          class="
+            grid
+            place-items-center
+            mx-auto
+            text-6xl text-red-500
+            dark:text-red-400
+          "
+        >
+          <i class="bx bx-x-circle"></i>
+        </div>
+        <div class="w-full">
+          <h5
+            class="
+              text-base
+              md:text-lg
+              lg:text-xl
+              xl:text-3xl
+              text-center
+              font-semibold
+              text-gray-700
+              dark:text-gray-200
+            "
+          >
+            ERROR!
+          </h5>
+          <p
+            class="
+              text-center text-xs
+              sm:text-base
+              lg:text-lg
+              xl:text-xl
+              text-gray-600
+              dark:text-gray-300
+            "
+          >
+            Tidak dapat terubung dengan server😭, mohon periksa koneksi internet anda ya😇 
+          </p>
+        </div>`
+      modal.classList.toggle("scale-0")
+      modal.classList.toggle("scale-100")
+      document.body.classList.toggle("overflow-y-hidden")
     }
   }
 
-  window.addEventListener("DOMContentLoaded", () => {
+  window.addEventListener("DOMContentLoaded", async () => {
+    await getCase()
     Theme()
-    getCase()
 
     const searchBar = document.getElementById("search__bar")
     const inputHandler = debounce(() => {
