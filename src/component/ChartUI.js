@@ -74,6 +74,15 @@ export default function ChartUI(hasToDestroyed, datas) {
             display: "auto",
           },
         },
+        plugins: {
+          legend: {
+            labels: {
+              font: {
+                family: "Poppins",
+              },
+            },
+          },
+        },
       },
     })
   }
@@ -139,6 +148,15 @@ export default function ChartUI(hasToDestroyed, datas) {
         scales: {
           y: {
             display: "auto",
+          },
+        },
+        plugins: {
+          legend: {
+            labels: {
+              font: {
+                family: "Poppins",
+              },
+            },
           },
         },
       },
