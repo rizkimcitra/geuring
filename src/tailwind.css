@@ -3,19 +3,41 @@
 @tailwind utilities;
 
 @layer components {
-  ::-webkit-scrollbar{
+  ::-webkit-scrollbar {
     @apply hidden;
   }
   html,
   body,
   input,
+  select,
+  option,
   label,
   span,
   button,
   textarea {
     @apply font-poppins antialiased;
   }
+  body,
+  span,
+  div,
+  card-item,
+  p,
+  h1,
+  h2,
+  h3,
+  h5,
+  h6,
+  figcaption,
+  input,
+  select,
+  option {
+    @apply selection:bg-purple-500 selection:bg-opacity-30;
+  }
   body {
     @apply bg-blue-50 dark:bg-gray-800;
   }
+  
+}
+html{
+  scroll-behavior: smooth;
 }
