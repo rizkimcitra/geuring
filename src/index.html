@@ -18,276 +18,51 @@
     <title>Guering | Lacak status Covid-19 terkini</title>
   </head>
   <body>
-    <header
-      class="
-        fixed
-        flex
-        items-center
-        justify-between
-        h-12
-        md:h-14
-        lg:h-24
-        w-full
-        py-2
-        px-2
-        sm:px-6 sm:py-4
-        md:px-8
-        lg:px-32
-        top-0
-        bg-blue-50
-        dark:bg-gray-800
-      "
-    >
-      <h1
-        class="
-          text-lg
-          md:text-xl
-          lg:text-2xl
-          xl:text-3xl
-          font-semibold
-          text-purple-500
-        "
-      >
-        Geuring
-      </h1>
-      <div class="flex items-center space-x-2">
-        <div
-          id="darkModeToggle"
-          class="
-            grid
-            place-items-center
-            w-8
-            h-8
-            md:text-lg
-            lg:text-xl
-            rounded-full
-            cursor-pointer
-            text-gray-700
-            dark:text-gray-200
-            hover:bg-blue-100
-            dark:hover:bg-gray-700
-          "
-        >
-          <i class="bx bx-moon" id="toggleIcon"></i>
-        </div>
-
-        <div
-          class="
-            grid
-            place-items-center
-            w-8
-            h-8
-            md:text-lg
-            lg:text-xl
-            rounded-full
-            cursor-pointer
-            text-gray-700
-            dark:text-gray-200
-            hover:bg-blue-100
-            dark:hover:bg-gray-700
-          "
-        >
+    <header class="header">
+      <h1 class="header__head">Geuring</h1>
+      <div class="flex items-center">
+        <div class="header__info-icon">
           <i class="bx bx-info-circle"></i>
         </div>
       </div>
-      <div
-        class="
-          absolute
-          -bottom-6
-          left-0
-          w-full
-          h-8
-          bg-gradient-to-b
-          from-blue-50
-          dark:from-gray-800
-          to-transparent
-        "
-      ></div>
+      <div class="header__reveal"></div>
     </header>
 
-    <main
-      class="
-        w-full
-        px-2
-        pb-2
-        sm:px-6 sm:pb-4
-        md:px-8 md:pb-8
-        lg:px-32 lg:pb-10
-        mt-14
-        md:mt-16
-        lg:mt-0
-        space-y-10
-        lg:space-y-2
-      "
-    >
-      <section
-        class="
-          flex flex-col
-          lg:flex-row-reverse lg:justify-between lg:h-screen
-          items-center
-          space-y-6
-          lg:space-y-0
-        "
-      >
-        <div class="grid place-items-center w-full select-none">
+    <main>
+      <section class="hero__section">
+        <div class="hero__section-image">
           <img
-            class="w-full med:w-9/12 sm:w-4/6 md:w-1/2 lg:w-full"
             src="https://ik.imagekit.io/mlnzyx/world_map_o0lVBB5ghd.svg?updatedAt=1630529138817"
             alt=""
           />
         </div>
 
         <div class="w-full">
-          <h1
-            class="
-              text-xl
-              sm:text-2xl
-              md:text-4xl
-              lg:text-5xl
-              xl:text-6xl
-              font-semibold
-              tracking-tight
-              leading-5
-              sm:leading-normal
-              text-gray-700
-              dark:text-gray-100
-            "
-          >
+          <h1 class="hero__section-heading">
             Cari tahu informasi terkini Covid-19
           </h1>
-          <p
-            class="
-              text-sm
-              md:text-base
-              xl:text-lg
-              my-2
-              md:my-4
-              lg:my-8
-              text-gray-600
-              dark:text-gray-300
-            "
-          >
+          <p class="hero__section-description">
             coronavirus disease 2019, disingkat Covid-19 adalah penyakit menular
             yang disebabkan oleh SARS-CoV-2, salah satu jenis koronavirus.<br />Ingin
             tahu update kasus, sembuh dan lain sebagainya? yuk cari
             informasinya!
           </p>
-          <a
-            href="#covid__section"
-            class="
-              grid
-              place-items-center
-              w-full
-              sm:w-3/5
-              lg:w-1/2
-              h-8
-              med:h-10
-              md:h-12
-              mx-auto
-              sm:mx-0
-              text-sm
-              md:text-base
-              rounded-md
-              bg-purple-500
-              text-white
-            "
-            >Dapatkan Info</a
-          >
+          <a href="#covid-info" class="hero__section-button">Dapatkan Info</a>
         </div>
       </section>
 
-      <section id="covid__section" class="w-full lg:pt-14 space-y-2">
-        <h3
-          class="
-            text-center text-lg
-            sm:text-xl
-            md:text-2xl
-            lg:text-4xl
-            font-semibold
-            mb-2
-            leading-5
-            sm:leading-8
-            lg:leading-10
-            text-gray-700
-            dark:text-gray-100
-          "
-        >
+      <section id="covid-info" class="covid__section">
+        <h3 class="covid__section-head">
           Informasi Covid-19 Di <span id="country__name">Seluruh Dunia</span>
         </h3>
-        <div
-          id="card__list"
-          class="
-            flex flex-col
-            w-full
-            md:flex-row md:justify-center
-            space-y-2
-            md:space-y-0 md:space-x-2
-          "
-        ></div>
-
-        <!-- <div class="relative w-full">
-          <select
-            id="select__countries"
-            class="
-              w-full
-              py-2
-              px-4
-              text-sm
-              md:text-base
-              rounded-md
-              shadow-sm
-              dark:shadow-none
-              outline-none
-              border-none
-              text-gray-700
-              dark:text-gray-200
-              bg-white
-              dark:bg-gray-700
-            "
-          >
-            <option class="w-1/2 text-sm md:text-base select-none" value="">
-              Cari berdasarkan Negara
-            </option>
-          </select>
-        </div> -->
+        <div id="card__list" class="covid__section-cardlist"></div>
 
         <div class="w-full">
-          <div
-            class="
-              flex
-              items-stretch
-              w-full
-              h-10
-              lg:h-12
-              rounded-md
-              shadow-sm
-              dark:shadow-none
-              overflow-hidden
-              border
-              border-transparent
-              focus-within:border-gray-400
-              bg-white
-              dark:bg-gray-700
-            "
-          >
-            <div class="grid place-items-center w-10 lg:w-12 text-gray-500">
+          <div class="covid__section-searchbar">
+            <div class="covid__section-searchbar--icon">
               <i class="bx bx-search"></i>
             </div>
             <input
-              class="
-                w-full
-                h-full
-                text-sm
-                font-light
-                med:text-base
-                outline-none
-                border-none
-                bg-transparent
-                text-gray-700
-                dark:text-gray-200
-                placeholder-shown:text-gray-700
-                placeholder-shown:text-opacity-50
-              "
               type="text"
               id="search__bar"
               title="Harap cari Negara dalam bahasa Inggris"
@@ -295,25 +70,50 @@
             />
           </div>
         </div>
-        <div
-        id="parent__covid"
-          class="
-            grid
-            place-items-center
-            w-full
-            h-96
-            p-2
-            lg:p-4
-            rounded-md
-            shadow-sm
-            dark:shadow-none
-            bg-white
-            dark:bg-gray-700
-          "
-        >
-          <canvas id="covid__chart"></canvas>
+        <div id="parent__covid" class="canvas__parent">
+          <canvas id="covid__chart">
+            <h1 class="text-center">
+              Your browser cannot display canvas, please update your browser
+            </h1>
+          </canvas>
         </div>
       </section>
     </main>
+
+    <div id="modal-error" class="modal">
+      <div id="modal-body" class="modal__body">
+        <h5 class="modal__text-placeholder">
+          Hayoo mau cari apa? ini cuma prototype text untuk error, nanti akan
+          tergantikan oleh text error bila ada request yang salah
+        </h5>
+      </div>
+
+      <div id="close-modal" class="modal__close-modal">
+        <i class="bx bx-x"></i>
+      </div>
+    </div>
+
+    <footer>
+      <span class="footer__desc"
+        >Data provided by
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://disease.sh"
+          class="text-green-500"
+          >disease.sh</a
+        ></span
+      >
+      <span class="footer__desc"
+        >Deploy on
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://vercel.com"
+          class="text-green-500"
+          >vercel.com</a
+        ></span
+      >
+    </footer>
   </body>
 </html>
