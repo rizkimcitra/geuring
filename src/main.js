@@ -3,13 +3,25 @@ import Theme from "./util/Theme"
 import "regenerator-runtime"
 import "./tailwind.css"
 import "./component/Card.js"
+import ChartUI from "./component/ChartUI"
 ;(function App() {
   const baseURL = "https://disease.sh/v3/covid-19"
+
+  const debounce = (func, delay = 500) => {
+    let timer
+    return () => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        func()
+      }, delay)
+    }
+  }
 
   const getCase = async () => {
     try {
       const response = await axios.get(`${baseURL}/all`)
-      renderData(response.data)
+      renderCard(response.data)
+      ChartUI(false, response.data)
     } catch (err) {
       if (err) {
         if (err.response) {
@@ -27,52 +39,37 @@ import "./component/Card.js"
             )
           }
         }
+      } else {
+        renderCard()
       }
     }
   }
 
-  const searchCase = async (country) => {
-    if (country.length > 0) {
-      try {
-        const response = await axios.get(`${baseURL}/countries/${country}`)
-        console.log(response.data)
-      } catch (err) {
-        let message
-        if (err) {
-          if (err.response) {
-            if (err.response.status === 404) {
-              message = "tidak dapat menemukan data yang diminta🤨"
-              renderError(message)
-              document.body.classList.add("overflow-y-hidden")
-            } else if (err.response.status >= 500) {
-              message =
-                "oops. ada sesuatu yang terjadi pada server 😭, mohon ulangi lagi"
-              renderError(message)
-              document.body.classList.add("overflow-y-hidden")
-            }
-          } else {
-            message =
-              "oops 😭. tidak dapat tersambung dengan server. periksa koneksi internet anda"
-            renderError(message)
-            document.body.classList.add("overflow-y-hidden")
-          }
-        }
+  const getCountry = async (reqVal) => {
+    try {
+      if (reqVal.length > 0) {
+        const response = await axios.get(`${baseURL}/countries/${reqVal}`)
+        renderCountry(response.data)
+        ChartUI(true, response.data)
       }
+    } catch (err) {
+      renderError(err)
     }
   }
 
-  const renderData = (datas) => {
-    const actData = Object.values(datas)
-    const key = Object.keys(datas)
+  const renderCard = (datas) => {
+    const dataValue = Object.values(datas)
+    const keyValue = Object.keys(datas)
     const arr = []
-    for (let i = 0; i < actData.length; i++) {
-      const dataNum = actData[i]
-      const dataText = key[i]
+    for (let i = 0; i < dataValue.length; i++) {
+      const dataNum = dataValue[i]
+      const dataText = keyValue[i]
       const el = { dataNum, dataText }
       arr.push(el)
     }
 
     const dataActive = arr
+
       .filter((el) => {
         return el.dataText === "active"
       })
@@ -95,28 +92,39 @@ import "./component/Card.js"
     const data = [dataActive, dataDeaths, dataRecovered]
 
     const cardList = document.getElementById("card__list")
-    data.forEach((el) => {
-      el.forEach((data) => {
-        const { dataText, dataNum } = data
-        let status =
-          dataText === "active"
-            ? "kasus aktif"
-            : dataText === "deaths"
-            ? "meninggal"
-            : "sembuh"
+    if (data.length) {
+      data.forEach((el) => {
+        el.forEach((data) => {
+          const { dataText, dataNum } = data
+          let status =
+            dataText === "active"
+              ? "Kasus"
+              : dataText === "deaths"
+              ? "Meninggal"
+              : "Sembuh"
 
-        let cases = dataNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-        cardList.innerHTML += `<div
+          let textColor =
+            dataText === "active"
+              ? "text-yellow-500"
+              : dataText === "deaths"
+              ? "text-red-500 dark:text-red-400"
+              : "text-green-500"
+
+          let cases = dataNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+          cardList.innerHTML += `<card-item
               class="
                 flex
                 justify-center
                 flex-col
                 w-full
-                h-20
+                h-16
+                md:h-20
+                lg:h-24
                 px-4
-                shadow-md
+                shadow-sm
                 dark:shadow-none
                 rounded-md
+                select-none
                 bg-white
                 dark:bg-gray-700
               "
@@ -127,35 +135,65 @@ import "./component/Card.js"
                   sm:text-lg
                   xl:text-xl
                   font-semibold
-                  text-gray-700
-                  dark:text-gray-200
+                  ${textColor}
                 "
               >
               ${status}
               </h5>
-              <span
-                class="text-sm sm:text-base text-gray-600 dark:text-gray-300"
+              <span id=${dataText}
+                class="text-sm sm:text-base lg:text-lg text-gray-600 dark:text-gray-300"
                 >${cases}</span
               >
-            </div>`
+            </card-item>`
+        })
       })
+    } else {
+      cardList.innerHTML = `<h5>Mohon Cek Koneksi Internet Anda!</h5>`
+    }
+  }
+
+  const renderCountry = (datas) => {
+    const cards = document.querySelectorAll("card-item")
+    const countryName = document.getElementById("country__name")
+    const { country, active, deaths, recovered } = datas
+
+    countryName.innerText = country
+    cards.forEach((card) => {
+      const lastEl = card.lastElementChild
+      let caseName =
+        lastEl.id === "active"
+          ? active
+          : lastEl.id === "deaths"
+          ? deaths
+          : recovered
+
+      lastEl.innerText = caseName
+        .toString()
+        .replace(/\B(?=(\d{3})+(?!\d))/g, ",")
     })
   }
 
   const renderError = (message) => {
-    const modal = document.getElementById("modal")
-    modal.classList.toggle("scale-0")
-    modal.innerHTML = ` <div>
-      <div class="text-center text-3xl md:text-4xl lg:text-5xl animate-pulse text-red-500 dark:text-red-400">
-        <i class='bx bx-error-circle'></i>
-      </div>
-      <span class="block text-center text-sm sm:text-base md:text-lg lg:text-xl font-semibold leading-5 my-4 text-gray-700 dark:text-gray-200">${message}</span>
-      <button id="closeModal" class="grid place-items-center py-1 px-4 mx-auto text-sm sm:text-base lg:text-lg rounded-lg text-center bg-purple-500 dark:bg-gray-500 text-white dark:text-gray-200">close</button>
-    </div>`
+    if (message.response) {
+      if (message.response.status === 404) {
+        const val = document.getElementById("search__bar")
+        console.log(`tidak dapat menemukan Negara ${val.value}`)
+      }
+    }
   }
 
-  document.addEventListener("DOMContentLoaded", () => {
+  window.addEventListener("DOMContentLoaded", () => {
     Theme()
     getCase()
+
+    const searchBar = document.getElementById("search__bar")
+    const inputHandler = debounce(() => {
+      const { value } = searchBar
+      getCountry(value)
+    }, 1000)
+
+    searchBar.addEventListener("input", () => {
+      inputHandler()
+    })
   })
 })()
