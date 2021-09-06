@@ -2,3 +2,4 @@
 node_modules/
 /.pnp
 .env
+./package-lock.json
