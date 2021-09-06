@@ -104,13 +104,7 @@ export default function ChartUI(hasToDestroyed, datas) {
     const a = [activeCase, deathsCase, recoveredCase]
     a.map((el) => {
       el.map((e) => {
-        let label =
-          e.title === "active"
-            ? "aktif"
-            : e.title === "deaths"
-            ? "meninggal"
-            : "sembuh"
-        dataLabels.push(label)
+        dataLabels.push(e.title)
         dataNum.push(e.dataNum)
         const newDataForBar = {
           aktif: e.dataNum,

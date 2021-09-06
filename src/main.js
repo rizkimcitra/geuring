@@ -1,10 +1,11 @@
 import axios from "axios"
-import Theme from "./util/Theme"
+import Theme, { animationElement } from "./util/Theme"
 import "regenerator-runtime"
 import "./tailwind.css"
 import "./component/Card.js"
 import ChartUI from "./component/ChartUI"
-;(function App() {
+import { disableScroll } from "./util/preventScroll.js"
+;(() => {
   const baseURL = "https://disease.sh/v3/covid-19"
 
   const debounce = (func, delay = 500) => {
@@ -70,51 +71,42 @@ import ChartUI from "./component/ChartUI"
         return el.dataText === "recovered"
       })
       .map((e) => e)
-
     const data = [dataActive, dataDeaths, dataRecovered]
 
     const cardList = document.getElementById("card__list")
-    if (data.length) {
-      data.forEach((el) => {
-        el.forEach((data) => {
-          const { dataText, dataNum } = data
-          let status =
-            dataText === "active"
-              ? "Kasus"
-              : dataText === "deaths"
-              ? "Meninggal"
-              : "Sembuh"
 
-          let textColor =
-            dataText === "active"
-              ? "text-yellow-500"
-              : dataText === "deaths"
-              ? "text-red-500 dark:text-red-400"
-              : "text-green-500"
+    data.map((el) => {
+      el.map((data) => {
+        const { dataText, dataNum } = data
 
-          let cases = dataNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-          cardList.innerHTML += `<card-item>
+        let textColor =
+          dataText === "active"
+            ? "text-yellow-500"
+            : dataText === "deaths"
+            ? "text-red-500 dark:text-red-400"
+            : "text-green-500"
+
+        let cases = dataNum.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+        cardList.innerHTML += `<card-item class="card__animate">
               <h5 class="card__item-head ${textColor}">
-              ${status}
+              ${dataText}
               </h5>
               <span id=${dataText}
                 class="card__item-num"
                 >${cases}</span
               >
             </card-item>`
-        })
       })
-    } else {
-      cardList.innerHTML = `<h5>Mohon Cek Koneksi Internet Anda!</h5>`
-    }
+    })
   }
 
   const renderCountry = (datas) => {
     const cards = document.querySelectorAll("card-item")
     const countryName = document.getElementById("country__name")
     const { country, active, deaths, recovered } = datas
+    console.log(datas)
 
-    countryName.innerText = country
+    countryName.innerText = `in ${country}`
     cards.forEach((card) => {
       const lastEl = card.lastElementChild
       let caseName =
@@ -174,12 +166,12 @@ import ChartUI from "./component/ChartUI"
               dark:text-gray-300
             "
           >
-            Tidak dapat menemukan negara ${val.value}😐, harap hanya mencari Negara saja dan dalam bahasa Inggris
+            oops, cannot found ${val.value}😐, please search a Country (in English)
           </p>
         </div>`
           modal.classList.toggle("scale-0")
           modal.classList.toggle("scale-100")
-          document.body.classList.toggle("overflow-y-hidden")
+          disableScroll()
         } else if (message.response.status >= 500) {
           const modal = document.getElementById("modal-error")
           const modalBody = document.getElementById("modal-body")
@@ -219,12 +211,12 @@ import ChartUI from "./component/ChartUI"
               dark:text-gray-300
             "
           >
-            Telah terjadi sesuatu pada Server 😭, mohon coba lagi nanti
+            Something happen to the server😭, please try again later
           </p>
         </div>`
           modal.classList.toggle("scale-0")
           modal.classList.toggle("scale-100")
-          document.body.classList.toggle("overflow-y-hidden")
+          disableScroll()
         }
       }
     } else {
@@ -266,19 +258,19 @@ import ChartUI from "./component/ChartUI"
               dark:text-gray-300
             "
           >
-            Tidak dapat terubung dengan server😭, mohon periksa koneksi internet anda ya😇 
+            can't connect to the internet😭, please connect your computer/phone to the internet😇 
           </p>
         </div>`
       modal.classList.toggle("scale-0")
       modal.classList.toggle("scale-100")
-      document.body.classList.toggle("overflow-y-hidden")
+      disableScroll()
     }
   }
 
   window.addEventListener("DOMContentLoaded", async () => {
     await getCase()
     Theme()
-
+    animationElement()
     const searchBar = document.getElementById("search__bar")
     const inputHandler = debounce(() => {
       const { value } = searchBar
