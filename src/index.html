@@ -14,8 +14,13 @@
       href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
       rel="stylesheet"
     />
+    <link
+      href="https://unpkg.com/boxicons@2.0.9/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+
     <link rel="stylesheet" href="./style.css" />
-    <title>Guering | Lacak status Covid-19 terkini</title>
+    <title>Guering | Get the latest information about Covid-19</title>
   </head>
   <body>
     <header class="header">
@@ -25,60 +30,132 @@
           <i class="bx bx-info-circle"></i>
         </div>
       </div>
-      <div class="header__reveal"></div>
     </header>
 
     <main>
       <section class="hero__section">
         <div class="hero__section-image">
           <img
-            src="https://ik.imagekit.io/mlnzyx/world_map_o0lVBB5ghd.svg?updatedAt=1630529138817"
+            src="https://ik.imagekit.io/mlnzyx/worldMapIllust_p7Q5BDvyqW.svg?updatedAt=1630891603973"
             alt=""
           />
         </div>
 
         <div class="w-full">
-          <h1 class="hero__section-heading">
-            Cari tahu informasi terkini Covid-19
+          <h1 class="hero__section-heading hero__animate">
+            Get the latest information about covid-19
           </h1>
-          <p class="hero__section-description">
-            coronavirus disease 2019, disingkat Covid-19 adalah penyakit menular
-            yang disebabkan oleh SARS-CoV-2, salah satu jenis koronavirus.<br />Ingin
-            tahu update kasus, sembuh dan lain sebagainya? yuk cari
-            informasinya!
+          <p class="hero__section-description hero__animate">
+            Coronavirus disease 2019 (COVID-19) is a contagious disease caused
+            by severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2). The
+            first known case was identified in Wuhan, China, in December 2019.
+            The disease has since spread worldwide, leading to an ongoing
+            pandemic.
           </p>
-          <a href="#covid-info" class="hero__section-button">Dapatkan Info</a>
+          <a href="#covid-info" class="hero__section-button hero__animate"
+            >Get to know</a
+          >
         </div>
       </section>
 
-      <section id="covid-info" class="covid__section">
-        <h3 class="covid__section-head">
-          Informasi Covid-19 Di <span id="country__name">Seluruh Dunia</span>
-        </h3>
-        <div id="card__list" class="covid__section-cardlist"></div>
+      <!-- <section class="w-full">
+        <h3 class="text-center text-lg sm:text-xl md:text-2xl lg:text-4xl font-semibold mb-2 lg:mb-4 xl:mb-12 leading-5 sm:leading-8 lg:leading-10 text-gray-700">Get to know symptom</h3>
+        <p>People with COVID-19 have had a wide range of symptoms reported – ranging from mild symptoms to severe illness. Symptoms may appear 2-14 days after exposure to the virus. Anyone can have mild to severe symptoms. People with these symptoms may have COVID-19</p>
 
-        <div class="w-full">
-          <div class="covid__section-searchbar">
-            <div class="covid__section-searchbar--icon">
-              <i class="bx bx-search"></i>
-            </div>
-            <input
-              type="text"
-              id="search__bar"
-              title="Harap cari Negara dalam bahasa Inggris"
-              placeholder="cari di Negara..."
-            />
-          </div>
+        <div class="w-full grid grid-cols-1" id="symptom__list">
+          <div class="w-full py-2 px-2 text-center font-semibold border rounded-md text-gray-700">Severe Cough</div>
         </div>
-        <div id="parent__covid" class="canvas__parent">
-          <canvas id="covid__chart">
-            <h1 class="text-center">
-              Your browser cannot display canvas, please update your browser
-            </h1>
-          </canvas>
+      </section> -->
+
+      <section class="covid__section">
+        <h3 class="covid__section-head" id="check-case">
+          Total case <span id="country__name">around the world</span>
+        </h3>
+        <div class="covid__section-body">
+          <div id="card__list" class="covid__section-cardlist">
+            <div class="w-full">
+              <div class="covid__section-searchbar card__animate">
+                <div class="covid__section-searchbar--icon">
+                  <i class="bx bx-search"></i>
+                </div>
+                <input
+                  type="text"
+                  id="search__bar"
+                  title="Search a Country Name, please note, search only in English"
+                  placeholder="Search a Country..."
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="lg:w-1/2 xl:w-full">
+            <div id="parent__covid" class="canvas__parent">
+              <canvas id="covid__chart">
+                <h1 class="text-center">
+                  Your browser cannot display canvas, please update your browser
+                  or use another newest browser
+                </h1>
+              </canvas>
+            </div>
+          </div>
         </div>
       </section>
     </main>
+
+    <footer>
+      <h5
+        class="
+          text-center
+          font-semibold
+          mb-2
+          lg:mb-4
+          text-base
+          lg:text-xl
+          text-gray-300
+        "
+      >
+        🎉 special thanks to 🎉
+      </h5>
+      <div class="flex items-center justify-center w-full space-x-2">
+        <a
+          href="https://disease.sh/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm sm:text-base text-green-400"
+          >disease.sh</a
+        >
+        <span class="text-white">&amp;</span>
+        <a
+          href="https://disease.sh/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-sm sm:text-base text-green-400"
+          >vercel</a
+        >
+      </div>
+      <div class="flex items-center justify-center w-full space-x-2">
+        <span class="text-sm sm:text-base text-gray-300">rimra</span>
+        <span class="text-sm sm:text-base text-gray-300">|</span>
+        <div class="flex items-center space-x-1">
+          <a
+            href="https://github.com/mlnzyx"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-lg lg:text-xl text-gray-300"
+          >
+            <i class="bx bxl-facebook-circle"></i>
+          </a>
+          <a
+            href="https://facebook.com/mlnzyx"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-lg lg:text-xl text-gray-300"
+          >
+            <i class="bx bxl-github"></i>
+          </a>
+        </div>
+      </div>
+    </footer>
 
     <div id="modal-error" class="modal">
       <div id="modal-body" class="modal__body">
@@ -93,27 +170,28 @@
       </div>
     </div>
 
-    <footer>
-      <span class="footer__desc"
-        >Data provided by
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://disease.sh"
-          class="text-green-500"
-          >disease.sh</a
-        ></span
+    <div id="modal-info" class="modal__info hidden">
+      <div
+        id="modal-info__body"
+        class="modal__info-body -translate-y-full scale-0"
       >
-      <span class="footer__desc"
-        >Deploy on
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://vercel.com"
-          class="text-green-500"
-          >vercel.com</a
-        ></span
-      >
-    </footer>
+        <div class="modal__info-icon">
+          <i class="bx bx-info-circle"></i>
+        </div>
+        <h5 class="modal__info-heading">Information</h5>
+        <p class="modal__info-description">
+          on my behalf, I declare no error, fraud or manipulation of the
+          information on this website. all the data displayed are a data from
+          the REST API from
+          <a href="https://disease.sh" target="_blank" rel="noopener noreferrer"
+            >disease.sh</a
+          >. and this website is hosted for free at
+          <a href="https://vercel.com" target="_blank" rel="noopener noreferrer"
+            >vercel.com</a
+          >
+        </p>
+        <button id="close__modal-info" class="modal__info-btn">Got it!</button>
+      </div>
+    </div>
   </body>
 </html>
