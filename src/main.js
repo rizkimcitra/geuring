@@ -1,14 +1,17 @@
 import axios from "axios"
-import Theme, { animationElement } from "./util/Theme"
+import { animationElement, theme } from "./util/theme.js"
 import "regenerator-runtime"
 import "./tailwind.css"
 import "./component/Card.js"
-import ChartUI from "./component/ChartUI"
+import ChartUI from "./component/ChartUI.js"
 import { disableScroll } from "./util/preventScroll.js"
+
+// ini merupakan IIFE fungsi, dimana fungsi ini akan berjalan sendiri ketika dibaca oleh web browser
 ;(() => {
   const baseURL = "https://disease.sh/v3/covid-19"
 
-  const debounce = (func, delay = 500) => {
+  // membuat fungsi debounce, debounce adalah higher order function, debounce disini melakukan tugas dimana ketika user mencari data menggunakan searchbar, server tidak harus melakukan permintaan client(website ini) setiap user mengetik satu huruf, namun, fungsi ini akan bejalan dengan ketika user mengetik 1 huruf dan menunggu delay ketika user tidak mengetik selama waktu yang ditentukan
+  function debounce(func, delay = 500) {
     let timer
     return () => {
       clearTimeout(timer)
@@ -18,28 +21,41 @@ import { disableScroll } from "./util/preventScroll.js"
     }
   }
 
+  // fungsi getCase adalah fungsi promise async/await yang berjalan pertama kali, tugasnya mengambil data kasus dari seluruh dunia ketika website pertama kali direload,
   const getCase = async () => {
     try {
       const response = await axios.get(`${baseURL}/all`)
+
+      // parameter pada chartUI merupakan value yang akan digunakan pada fungsi chartUI nantinya, parameter pertama adalah boolean dan kedua adalah data yang diambil dari API
       ChartUI(false, response.data)
+      // ketika sudah mendapatkan data, maka selanjutnya akan memanggil funsi renderCard dimana fungsi ini menerima 1 parameter yaitu data dari API
       renderCard(response.data)
     } catch (err) {
+      // Jika terjadi error, maka fungsi RenderError akan dipanggil. dan fungsi ini menerima satu parameter yang berisikan detail error yang diberikan oleh axios
       renderError(err)
     }
   }
 
+  // fungsi getCountry adalah fungsi promise async/await yang akan berjalan ketika user mencari data dari input an yang user berikan, namun data disini harus sesuai dengan data yang tersedia pada API, jika data tidak ditemukan maka fungsi catch akan dijalankan
+  // fungsi ini menerima satu parameter yang berisikan input value dari user
   const getCountry = async (reqVal) => {
     try {
+      // jika input value tersebut lebih dari 0 (0 kata) dan tidak sama dengan 0(0 kata) maka permintaan data akan dilakukan oleh axios
       if (reqVal.length > 0) {
         const response = await axios.get(`${baseURL}/countries/${reqVal}`)
+        // jika sudah mendapatkan data, maka kedua fungsi dibawah akan dijalankan
+        // fungsi renderCountry adalah fungsi yang menimpa data pada elemen Card nantinya, dan fungsi ini menerima satu paramter yakni data dari permintaan yang sebelumnya suda dilakukan
         renderCountry(response.data)
+        // selanjutnnya fungsi ChartUI akan dipanggil, namun kali ini, parameter pertama dari fungsi tersebut akan mendapatkan nilai true dan akan selalu mendapatkan nilai true, yang artinya, data dari ChartJS akan selalu diubah ketika CharJS merender data dari negara tertentu, dan parameter kedua adalah data dari permintaan yang sudah didapatkan sebelumnya oleh axios
         ChartUI(true, response.data)
       }
     } catch (err) {
+      // Jika terjadi error, maka fungsi RenderError akan dipanggil. dan fungsi ini menerima satu parameter yang berisikan detail error yang diberikan oleh axios
       renderError(err)
     }
   }
 
+  // fungsi renderCard adalah fungsi yang akan me-render komponen card, dimana fungsi ini menerima 1 parameter yang berisikan data dari API
   const renderCard = (datas) => {
     const dataValue = Object.values(datas)
     const keyValue = Object.keys(datas)
@@ -98,12 +114,11 @@ import { disableScroll } from "./util/preventScroll.js"
       })
     })
   }
-
+  // fungsi ini kurang lebih sama seperti fungsi renderCard namun fungsi ini akan selalu menimpa data sebelumnya jika ada permintaan baru dari inputan user
   const renderCountry = (datas) => {
     const cards = document.querySelectorAll("card-item")
     const countryName = document.getElementById("country__name")
     const { country, active, deaths, recovered } = datas
-    console.log(datas)
 
     countryName.innerText = `in ${country}`
     cards.forEach((card) => {
@@ -121,6 +136,7 @@ import { disableScroll } from "./util/preventScroll.js"
     })
   }
 
+  // fungsi ini akan berjalan jika ada error ketika melakukan permintaan ke API, seperti data tidak ditemukan, dsb.
   const renderError = (message) => {
     if (message.message !== "Network Error") {
       if (message.response) {
@@ -265,6 +281,7 @@ import { disableScroll } from "./util/preventScroll.js"
     }
   }
 
+  // debounce event ini mengekekusi event debounce dan mengamati input value user dari elemen searchBar pada html
   const debounceEvent = () => {
     const searchBar = document.getElementById("search__bar")
     const inputHandler = debounce(() => {
@@ -277,9 +294,10 @@ import { disableScroll } from "./util/preventScroll.js"
     })
   }
 
+  // melakukan event pada window, jika dokumen sudah terload, maka akan menjalankan fungsi async/await dimana fungsi ini juga akan menjalankan 4 fungsi yakni 3 dari fungsi tersebut adalah fungsi regular, dan satu lagi merupakan fungsi promise
   window.addEventListener("DOMContentLoaded", async () => {
     await getCase()
-    Theme()
+    theme()
     animationElement()
     debounceEvent()
   })

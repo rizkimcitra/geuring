@@ -1,7 +1,6 @@
 const path = require("path")
 const HtmlWebpaakPlugin = require("html-webpack-plugin")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const FaviconsWebpackPlugin = require("favicons-webpack-plugin")
 
 module.exports = {
   entry: "./src/main.js",
@@ -12,10 +11,10 @@ module.exports = {
         use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"],
       },
       {
-        test: /\.(svg|png|)$/,
+        test: /\.jpe?g$|\.ico$|\.gif$|\.png$|\.svg$|\.woff$|\.ttf$|\.wav$|\.mp3$/,
         use: [
           {
-            loader: "file-loader",
+            loader: "file-loader?name=[name].[ext]",
           },
         ],
       },
@@ -25,11 +24,11 @@ module.exports = {
     new HtmlWebpaakPlugin({
       template: "./src/index.html",
       filename: "index.html",
+      favicon: path.resolve(__dirname, "./src/favicon.ico"),
     }),
     new MiniCssExtractPlugin({
       filename: "style.css",
     }),
-    new FaviconsWebpackPlugin("./src/icons/world_map.svg"),
   ],
   output: {
     path: path.resolve(__dirname, "dist"),

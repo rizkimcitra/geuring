@@ -1,7 +1,8 @@
 import { disableScroll, enableScroll } from "./preventScroll"
 import { gsap } from "gsap"
 import ScrollTrigger from "gsap/ScrollTrigger"
-export default function Theme() {
+import worldMap from "../icons/world_map.svg"
+export function theme() {
   document.getElementById("close-modal").addEventListener("click", () => {
     enableScroll()
     const modal = document.getElementById("modal-error")
@@ -55,6 +56,7 @@ export default function Theme() {
   ]
   const symptomList = document.getElementById("symptom__list")
 
+  // rasanya seperti saya menggunakan ReactJS jika menggunakan metode ini😁
   symptoms.map((symptom) => {
     symptomList.innerHTML += `<li
             class="symptoms__section-list__item list__animate"
@@ -65,14 +67,20 @@ export default function Theme() {
             </div>
           </li>`
   })
+
+  document
+    .querySelector(".hero__section-image > img")
+    .setAttribute("src", worldMap)
 }
 
 export function animationElement() {
+  // fungsi ini melakukan animasi ketika website pertama kali dibuka
   gsap.registerPlugin(ScrollTrigger)
   gsap.from(".hero__animate", {
     scrollTrigger: ".hero__animate",
     opacity: 0,
     x: -50,
+    overflow: "hidden",
     stagger: 0.3,
     transitionDuration: 0.9,
     delay: 0.5,
@@ -82,6 +90,7 @@ export function animationElement() {
     scrollTrigger: ".header__head",
     opacity: 0,
     x: -100,
+    overflow: "hidden",
     transitionDuration: 0.4,
     transitionProperty: "ease",
   })
@@ -89,6 +98,7 @@ export function animationElement() {
     scrollTrigger: ".header__info-icon",
     opacity: 0,
     x: 100,
+    overflow: "hidden",
     transitionDuration: 0.4,
     transitionProperty: "ease",
   })
