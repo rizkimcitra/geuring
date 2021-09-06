@@ -52,7 +52,6 @@ import { disableScroll } from "./util/preventScroll.js"
     }
 
     const dataActive = arr
-
       .filter((el) => {
         return el.dataText === "active"
       })
@@ -71,10 +70,10 @@ import { disableScroll } from "./util/preventScroll.js"
         return el.dataText === "recovered"
       })
       .map((e) => e)
+
     const data = [dataActive, dataDeaths, dataRecovered]
 
     const cardList = document.getElementById("card__list")
-
     data.map((el) => {
       el.map((data) => {
         const { dataText, dataNum } = data
@@ -123,10 +122,10 @@ import { disableScroll } from "./util/preventScroll.js"
   }
 
   const renderError = (message) => {
-    const noNetWork = "Network Error"
-    if (message.message !== noNetWork) {
+    if (message.message !== "Network Error") {
       if (message.response) {
         if (message.response.status === 404) {
+          disableScroll()
           const val = document.getElementById("search__bar")
           const modal = document.getElementById("modal-error")
           const modalBody = document.getElementById("modal-body")
@@ -171,8 +170,8 @@ import { disableScroll } from "./util/preventScroll.js"
         </div>`
           modal.classList.toggle("scale-0")
           modal.classList.toggle("scale-100")
-          disableScroll()
         } else if (message.response.status >= 500) {
+          disableScroll()
           const modal = document.getElementById("modal-error")
           const modalBody = document.getElementById("modal-body")
           modalBody.innerHTML = `<div
@@ -216,10 +215,10 @@ import { disableScroll } from "./util/preventScroll.js"
         </div>`
           modal.classList.toggle("scale-0")
           modal.classList.toggle("scale-100")
-          disableScroll()
         }
       }
     } else {
+      disableScroll()
       const modal = document.getElementById("modal-error")
       const modalBody = document.getElementById("modal-body")
       modalBody.innerHTML = `<div
@@ -258,19 +257,15 @@ import { disableScroll } from "./util/preventScroll.js"
               dark:text-gray-300
             "
           >
-            can't connect to the internet😭, please connect your computer/phone to the internet😇 
+            can't connect to the internet😭, please connect your computer to the internet😇 
           </p>
         </div>`
       modal.classList.toggle("scale-0")
       modal.classList.toggle("scale-100")
-      disableScroll()
     }
   }
 
-  window.addEventListener("DOMContentLoaded", async () => {
-    await getCase()
-    Theme()
-    animationElement()
+  const debounceEvent = () => {
     const searchBar = document.getElementById("search__bar")
     const inputHandler = debounce(() => {
       const { value } = searchBar
@@ -280,5 +275,12 @@ import { disableScroll } from "./util/preventScroll.js"
     searchBar.addEventListener("input", () => {
       inputHandler()
     })
+  }
+
+  window.addEventListener("DOMContentLoaded", async () => {
+    await getCase()
+    Theme()
+    animationElement()
+    debounceEvent()
   })
 })()

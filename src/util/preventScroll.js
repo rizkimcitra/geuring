@@ -6,7 +6,7 @@ function prevScroll(e) {
 
 function prevScrollKeys(e) {
   if (keys[e.keyCode]) {
-    preventDefault(e)
+    prevScroll(e)
     return false
   }
 }
@@ -25,8 +25,7 @@ try {
 } catch (e) {}
 
 const wheelOpt = supportsPassive ? { passive: false } : false
-const wheelEvent =
-  "onwheel" in document.createElement("div") ? "wheel" : "mousewheel"
+const wheelEvent = "onwheel" in document.body ? "wheel" : "mousewheel"
 
 export function disableScroll() {
   window.addEventListener("DOMMouseScroll", prevScroll, false)

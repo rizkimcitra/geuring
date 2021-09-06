@@ -2,15 +2,14 @@ import { disableScroll, enableScroll } from "./preventScroll"
 import { gsap } from "gsap"
 import ScrollTrigger from "gsap/ScrollTrigger"
 export default function Theme() {
-  document.getElementById("close-modal").addEventListener("click", closeModal)
-  function closeModal() {
+  document.getElementById("close-modal").addEventListener("click", () => {
     enableScroll()
     const modal = document.getElementById("modal-error")
     const modalBody = document.getElementById("modal-body")
     modal.classList.toggle("scale-0")
     modal.classList.toggle("scale-100")
     modalBody.innerHTML = ""
-  }
+  })
 
   const modalInfo = document.getElementById("modal-info")
   const modalInfoBody = document.getElementById("modal-info__body")
@@ -34,9 +33,9 @@ export default function Theme() {
 
   const infoBtn = document.querySelector(".header__info-icon")
   infoBtn.addEventListener("click", () => {
+    disableScroll()
     modalInfo.classList.toggle("hidden")
     modalInfo.classList.toggle("grid")
-    disableScroll()
     setTimeout(() => {
       modalInfoBody.classList.toggle("translate-y-0")
       modalInfoBody.classList.toggle("-translate-y-full")
@@ -44,23 +43,28 @@ export default function Theme() {
     }, 125)
   })
 
-  // const symptoms = [
-  //   "Fever or chills",
-  //   "Cough",
-  //   "Shortness of breath or difficulty breathing",
-  //   "Fatigue",
-  //   "Muscle or body aches",
-  //   "Headache",
-  //   "New loss of taste or smell",
-  //   "Sore throat",
-  //   "Congestion or runny nose",
-  //   "Nausea or vomiting",
-  //   "Diarrhea",
-  // ]
-  // const symptomList = document.getElementById("symptom__list")
+  const symptoms = [
+    "Fever or chills",
+    "Cough",
+    "Shortness of breath",
+    "Fatigue",
+    "Headache",
+    "New loss of taste or smell",
+    "Sore throat",
+    "Diarrhea",
+  ]
+  const symptomList = document.getElementById("symptom__list")
 
-  // for (const symptom of symptoms) {
-  // }
+  symptoms.map((symptom) => {
+    symptomList.innerHTML += `<li
+            class="symptoms__section-list__item list__animate"
+          >
+            <div>${symptom}</div>
+            <div class='text-yellow-600'>
+              <i class="bx bx-error-circle"></i>
+            </div>
+          </li>`
+  })
 }
 
 export function animationElement() {
@@ -128,5 +132,25 @@ export function animationElement() {
     y: 30,
     transitionDuration: 0.4,
     transitionProperty: "ease-in",
+  })
+  gsap.from(".symptoms__animate", {
+    scrollTrigger: ".symptoms__animate",
+    y: 30,
+    transitionProperty: "ease",
+    duration: 0.4,
+    opacity: 0,
+    stagger: {
+      each: 0.2,
+    },
+  })
+  gsap.from(".list__animate", {
+    scrollTrigger: ".list__animate",
+    opacity: 0,
+    y: 50,
+    transitionProperty: "ease",
+    duration: 0.45,
+    stagger: {
+      each: 0.25,
+    },
   })
 }
