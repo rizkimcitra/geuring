@@ -1,5 +1,5 @@
 ![Preview](./preview/geuring-thumb.png "Preview Screenshot")
-# Geuring. Penyedia Informasi Covid-19
+# Geuring
 Aplikasi submission Dicoding untuk kelas Fundamental Front-End Web Development,
 Aplikasi ini menyediakan data kasus dari seluruh dunia dan setiap negara.
 
