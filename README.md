@@ -1,6 +1,6 @@
 ![Preview](./preview/geuring-thumb.png "Preview Screenshot")
 # Geuring
-*(pronounce Gering dalam bahasa Sunda, yang berarti sakit).*
+*(dibaca Gering dalam bahasa Sunda, yang berarti sakit).*<br/>
 Aplikasi submission Dicoding untuk kelas Fundamental Front-End Web Development,
 Aplikasi ini menyediakan data kasus dari seluruh dunia dan setiap negara.
 
