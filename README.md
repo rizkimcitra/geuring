@@ -24,3 +24,5 @@ npm run dev
  - TailwindCSS
  - ChartJS
  - GSAP
+
+Demo aplikasi dapat dilihat [Disini](https://geuring.geuring.vercell.app/)
