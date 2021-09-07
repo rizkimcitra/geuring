@@ -25,4 +25,4 @@ npm run dev
  - ChartJS
  - GSAP
 
-Demo aplikasi dapat dilihat [Disini](https://geuring.vercell.app/)
+Demo aplikasi dapat dilihat [Disini](https://geuring.vercel.app/)
